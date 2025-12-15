@@ -37,6 +37,6 @@ void	affiche(t_data *data, int i)
 		new_y -= TILE_SIZE;
 	if (i == 4)
 		new_y += TILE_SIZE;
-	ft_printf("Moves: %d\n", data->moves++);
+	data->moves++;
 	my_test_func(data, new_x, new_y);
 }

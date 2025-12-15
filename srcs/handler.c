@@ -6,7 +6,7 @@
 /*   By: mchiacha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 10:38:37 by mchiacha          #+#    #+#             */
-/*   Updated: 2025/12/15 10:41:26 by mchiacha         ###   ########.fr       */
+/*   Updated: 2025/12/15 13:15:14 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	finish_game(t_data *data)
 {
 	if (!data)
 		return ;
-	write(1, "Congratulations!", 16);
-	write(1, "\n", 2);
+	write(1, "Congratulations!\n", 17);
+	ft_printf("You did it with %d moves\n", data->moves);
 	clean_and_exit(data, NULL);
 }
 
@@ -76,14 +76,20 @@ void	my_test_second_func(t_data *data, int keysym)
 int	handle_keypress(int keysym, void *param)
 {
 	t_data	*data;
+	t_pt	xy;
+	t_pt	pxpy;
 
+	xy.x = -1;
+	xy.y = -1;
+	pxpy.x = -1;
+	pxpy.y = -1;
 	data = (t_data *)param;
 	if (!data)
 		return (0);
 	if (keysym == XK_Escape)
 		return (clean_and_exit(data, "Goodbye\n"), 0);
 	my_test_second_func(data, keysym);
-	my_new_best_func(data);
+	my_new_best_func(data, 0, xy, pxpy);
 	render_map2(data, data->player_x, data->player_y);
 	return (0);
 }

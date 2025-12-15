@@ -46,8 +46,8 @@ static int	main_init_mlx(t_data *data)
 		free_map(data->map, data->rows);
 		return (clean_and_exit(data, NULL), 1);
 	}
-	data->win_ptr = mlx_new_window(data->mlx_ptr, WINDOW_WIDTH,
-			WINDOW_HEIGHT, "so_long");
+	data->win_ptr = mlx_new_window(data->mlx_ptr, data->cols * TILE_SIZE,
+			data->rows * TILE_SIZE, "so_long");
 	if (!data->win_ptr)
 	{
 		free_map(data->map, data->rows);
@@ -89,7 +89,7 @@ int	main(int argc, char **argv)
 	if (!has_extension_ber(argv[1]))
 		return (write(1, "Error\nMap file must have .ber extension\n", 41), 1);
 	ft_memset(&data, 0, sizeof(data));
-	data.moves = 1;
+	data.moves = 0;
 	data.frame = 0;
 	data.map = read_map(argv[1], &data.rows, &data.cols);
 	if (!main_validate(&data))
@@ -99,7 +99,6 @@ int	main(int argc, char **argv)
 	init_player(&data);
 	main_load_images(&data);
 	load_butterfly(&data);
-	center_map(&data);
 	render_map(&data);
 	mlx_hook(data.win_ptr, KeyRelease, KeyReleaseMask, handle_keypress, &data);
 	mlx_hook(data.win_ptr, 17, 0L, handle_close, &data);

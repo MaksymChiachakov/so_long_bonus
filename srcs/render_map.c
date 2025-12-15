@@ -12,44 +12,6 @@
 
 #include "../include/so_long.h"
 
-void	center_map(t_data *data)
-{
-	int	map_width;
-	int	map_height;
-
-	if (!data)
-		return ;
-	map_width = data->cols * TILE_SIZE;
-	map_height = data->rows * TILE_SIZE;
-	data->offset_x = (WINDOW_WIDTH - map_width) / 2;
-	data->offset_y = (WINDOW_HEIGHT - map_height) / 2;
-	if (data->offset_x < 0)
-		data->offset_x = 0;
-	if (data->offset_y < 0)
-		data->offset_y = 0;
-}
-
-void	render_background(t_data *data)
-{
-	int	y;
-	int	x;
-
-	if (!data || !data->mlx_ptr || !data->win_ptr || !data->background)
-		return ;
-	y = 0;
-	while (y < WINDOW_HEIGHT)
-	{
-		x = 0;
-		while (x < WINDOW_WIDTH)
-		{
-			mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-				data->background, x, y);
-			x += TILE_SIZE;
-		}
-		y += TILE_SIZE;
-	}
-}
-
 void	my_best_func(char c, t_data *data, int px, int py)
 {
 	if (!data || !data->mlx_ptr || !data->win_ptr)
@@ -73,36 +35,44 @@ void	my_best_func(char c, t_data *data, int px, int py)
 			data->floor, px, py);
 }
 
-void	my_new_best_func(t_data *data)
+void	my_new_best_func(t_data *data, int test, t_pt xy, t_pt pxpy)
 {
 	char	c;
-	int		y;
-	int		x;
-	int		px;
-	int		py;
 
-	if (!data || !data->map || !data->mlx_ptr || !data->win_ptr)
-		return ;
-	y = 0;
-	while (++y < data->rows)
+	while (++xy.y < data->rows)
 	{
-		x = 0;
-		while (++x < data->cols)
+		xy.x = -1;
+		while (++xy.x < data->cols)
 		{
-			c = data->map[y][x];
-			px = data->offset_x + x * TILE_SIZE;
-			py = data->offset_y + y * TILE_SIZE;
+			c = data->map[xy.y][xy.x];
+			pxpy.x = data->offset_x + xy.x * TILE_SIZE;
+			pxpy.y = data->offset_y + xy.y * TILE_SIZE;
 			if (c == '1' && data->wall)
+			{
 				mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-					data->wall, px, py);
+					data->wall, pxpy.x, pxpy.y);
+				if (test == 0)
+				{
+					render_hud(data, pxpy.x + 32, pxpy.y + 34);
+					test = 1;
+				}
+			}
 			else
-				my_best_func(c, data, px, py);
+				my_best_func(c, data, pxpy.x, pxpy.y);
 		}
 	}
 }
 
 void	render_map(t_data *data)
 {
-	render_background(data);
-	my_new_best_func(data);
+	t_pt	xy;
+	t_pt	pxpy;
+
+	xy.x = -1;
+	xy.y = -1;
+	pxpy.x = -1;
+	pxpy.y = -1;
+	if (!data || !data->map || !data->mlx_ptr || !data->win_ptr)
+		return ;
+	my_new_best_func(data, 0, xy, pxpy);
 }

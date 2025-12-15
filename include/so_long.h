@@ -6,7 +6,7 @@
 /*   By: mchiacha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:34:03 by mchiacha          #+#    #+#             */
-/*   Updated: 2025/12/15 10:37:46 by mchiacha         ###   ########.fr       */
+/*   Updated: 2025/12/15 13:39:34 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 # ifndef _GNU_SOURCE
 #  define _GNU_SOURCE 
 # endif
-# define WINDOW_WIDTH 1900
-# define WINDOW_HEIGHT 1000
 # define TILE_SIZE 64
 # define MLX_ERROR 1
 
@@ -92,6 +90,7 @@ void	free_images(t_data *data);
 void	clean_and_exit(t_data *data, const char *msg);
 void	my_best_func(char c, t_data *data, int px, int py);
 void	load_butterfly(t_data *data);
+void	render_hud(t_data *d, int px, int py);
 int		animation_loop(t_data *d);
 void	finish_game(t_data *data);
 void	pixel_to_tile(int px, int py, int *tx, int *ty);
@@ -100,8 +99,6 @@ int		handle_close(void *param);
 int		has_extension_ber(const char *name);
 int		validate_map_structure(t_data *data, char **map, char **err_msg);
 char	**read_map(const char *filename, int *rows, int *cols);
-void	center_map(t_data *data);
-void	render_background(t_data *data);
 void	render_map(t_data *data);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_is_new_line(char *str);
@@ -119,7 +116,7 @@ void	set_neighbor(t_pt cur, int dir, int *nx, int *ny);
 void	process_neighbors(t_rc rc, t_pt cur, t_pt *queue, int *tail);
 char	**my_free(char *row_line, char **map, int fd, int r);
 char	**my_new_func(char **map, char *row, int r);
-void	my_new_best_func(t_data *data);
+void	my_new_best_func(t_data *data, int test, t_pt test1, t_pt test2);
 void	my_test_second_func(t_data *data, int keysym);
 void	affiche(t_data *data, int i);
 void	my_test_func(t_data *data, int new_x, int new_y);
