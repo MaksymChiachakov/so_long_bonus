@@ -6,7 +6,7 @@
 /*   By: mchiacha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:34:03 by mchiacha          #+#    #+#             */
-/*   Updated: 2025/12/08 18:03:36 by mchiacha         ###   ########.fr       */
+/*   Updated: 2025/12/15 10:37:46 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ typedef struct s_data
 	void	*exit_open;
 	void	*treasure;
 	void	*floor;
-	// void	*player_img;
-	void	*butterfly[7]; 
-	int 	frame;
+	void	*butterfly[7];
+	int		frame;
 	int		player_x;
 	int		player_y;
 	int		offset_x;
@@ -91,7 +90,9 @@ void	render_map2(t_data *d, int x, int y);
 void	free_map(char **map, int rows);
 void	free_images(t_data *data);
 void	clean_and_exit(t_data *data, const char *msg);
-void	my_best_func(char c, t_data *data, int px, int py); //
+void	my_best_func(char c, t_data *data, int px, int py);
+void	load_butterfly(t_data *data);
+int		animation_loop(t_data *d);
 void	finish_game(t_data *data);
 void	pixel_to_tile(int px, int py, int *tx, int *ty);
 int		handle_keypress(int keysym, void *param);

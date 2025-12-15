@@ -45,8 +45,6 @@ void	free_images(t_data *data)
 		mlx_destroy_image(data->mlx_ptr, data->treasure);
 	if (data->floor)
 		mlx_destroy_image(data->mlx_ptr, data->floor);
-	// if (data->player_img)
-	// 	mlx_destroy_image(data->mlx_ptr, data->player_img);
 	i = 0;
 	while (i < 7)
 	{
@@ -75,33 +73,18 @@ void	clean_and_exit(t_data *data, const char *msg)
 		len = ft_strlen(msg);
 		write(1, msg, len);
 	}
-	// if (data)
-	// {
-	// 	if (data->win_ptr)
-	// 	{
-	// 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	// 		data->win_ptr = NULL;
-	// 	}
-	// 	free_images(data);
-	// 	free_map(data->map, data->rows);
-	// }
-	// my_little_free(data);
 	if (data)
 	{
 		if (data->map)
 			free_map(data->map, data->rows);
-		
 		free_images(data);
-		
 		if (data->win_ptr)
 			mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		
 		if (data->mlx_ptr)
 		{
 			mlx_destroy_display(data->mlx_ptr);
 			free(data->mlx_ptr);
 		}
-		
 		ft_memset(data, 0, sizeof(t_data));
 	}
 	if (msg && ft_strncmp(msg, "Error\n", 6) == 0)

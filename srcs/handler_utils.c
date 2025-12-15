@@ -22,41 +22,10 @@ int	handle_close(void *param)
 	return (0);
 }
 
-// int handle_keyrelease(int keysym, void *param)
-// {
-//     t_data *data = (t_data *)param;
-
-//     if (keysym == XK_w || keysym == XK_a ||
-//         keysym == XK_s || keysym == XK_d ||
-//         keysym == XK_Up || keysym == XK_Down ||
-//         keysym == XK_Left || keysym == XK_Right)
-//     {
-// 		if (keysym == XK_a || keysym == XK_A || keysym == XK_Left)
-// 			affiche(data, 1);
-// 		if (keysym == XK_d || keysym == XK_D || keysym == XK_Right)
-// 			affiche(data, 2);
-// 		if (keysym == XK_w || keysym == XK_W || keysym == XK_Up)
-// 			affiche(data, 3);
-// 		if (keysym == XK_s || keysym == XK_S || keysym == XK_Down)
-// 			affiche(data, 4);
-//         data->is_moving = 0;
-//         data->frame = 0;
-
-//         my_new_best_func(data);
-//         put_image_with_transparency(data,
-//             data->player_img[0],
-//             data->offset_x + data->player_x,
-//             data->offset_y + data->player_y);
-//     }
-//     return (0);
-// }
-
-
 void	affiche(t_data *data, int i)
 {
 	int	new_x;
 	int	new_y;
-
 
 	new_x = data->player_x;
 	new_y = data->player_y;

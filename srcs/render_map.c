@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_map.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchiacha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/15 10:50:49 by mchiacha          #+#    #+#             */
+/*   Updated: 2025/12/15 10:52:58 by mchiacha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/so_long.h"
 
 void	center_map(t_data *data)
@@ -6,8 +18,7 @@ void	center_map(t_data *data)
 	int	map_height;
 
 	if (!data)
-		return;
-	
+		return ;
 	map_width = data->cols * TILE_SIZE;
 	map_height = data->rows * TILE_SIZE;
 	data->offset_x = (WINDOW_WIDTH - map_width) / 2;
@@ -24,8 +35,7 @@ void	render_background(t_data *data)
 	int	x;
 
 	if (!data || !data->mlx_ptr || !data->win_ptr || !data->background)
-		return;
-	
+		return ;
 	y = 0;
 	while (y < WINDOW_HEIGHT)
 	{
@@ -43,8 +53,7 @@ void	render_background(t_data *data)
 void	my_best_func(char c, t_data *data, int px, int py)
 {
 	if (!data || !data->mlx_ptr || !data->win_ptr)
-		return;
-	
+		return ;
 	if (c == 'C')
 	{
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
@@ -73,13 +82,12 @@ void	my_new_best_func(t_data *data)
 	int		py;
 
 	if (!data || !data->map || !data->mlx_ptr || !data->win_ptr)
-		return;
-	
+		return ;
 	y = 0;
-	while (y < data->rows)
+	while (++y < data->rows)
 	{
 		x = 0;
-		while (x < data->cols)
+		while (++x < data->cols)
 		{
 			c = data->map[y][x];
 			px = data->offset_x + x * TILE_SIZE;
@@ -89,44 +97,12 @@ void	my_new_best_func(t_data *data)
 					data->wall, px, py);
 			else
 				my_best_func(c, data, px, py);
-			x++;
-		}
-		y++;
-	}
-}
-
-void	render_map2(t_data *d, int x, int y)
-{
-	int	idx;
-
-	idx = 0;
-	if (!d || !d->mlx_ptr || !d->win_ptr || !d->butterfly[0])
-	{
-		clean_and_exit(d, NULL);
-		return ;
-	}
-
-	if (d->butterfly[0])
-	{
-		idx = (d->frame / 6) % 7;
-		if (idx >= 0 && idx < 7 && d->butterfly[idx])
-		{
-			put_image_with_transparency(d, d->butterfly[idx], 
-				d->offset_x + x, d->offset_y + y);
 		}
 	}
 }
 
 void	render_map(t_data *data)
 {
-	// if (!d)
-	// {
-	// 	clean_and_exit(d, NULL);
-	// 	return ;
-	// }
-	
 	render_background(data);
 	my_new_best_func(data);
-	// put_image_with_transparency(data, data->player_img, data->offset_x
-	// 	+ data->player_x, data->offset_y + data->player_y);
 }

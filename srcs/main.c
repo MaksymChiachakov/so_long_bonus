@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchiacha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/15 10:38:29 by mchiacha          #+#    #+#             */
+/*   Updated: 2025/12/15 10:38:31 by mchiacha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/so_long.h"
 
 static int	main_validate(t_data *data)
@@ -63,45 +75,9 @@ static void	main_load_images(t_data *data)
 			"./textures/treasure.xpm", &w, &h);
 	data->exit_open = mlx_xpm_file_to_image(data->mlx_ptr,
 			"./textures/exit_open.xpm", &w, &h);
-	// data->player_img = mlx_xpm_file_to_image(data->mlx_ptr,
-	// 		"./textures/player.xpm", &data->player_w, &data->player_h);
 	if (!data->background || !data->wall || !data->floor || !data->exit_close
 		|| !data->treasure || !data->exit_open)
 		clean_and_exit(data, "Error\nFailed to load one or more images\n");
-}
-
-void	load_butterfly(t_data *data)
-{
-	int	w;
-	int	h;
-	int	i;
-
-	w = 0;
-	h = 0;
-	data->butterfly[0] = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/player.xpm", &data->player_w, &data->player_h);
-	data->butterfly[1] = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/player2.xpm", &w, &h);
-	data->butterfly[2] = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/player3.xpm", &w, &h);
-	data->butterfly[3] = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/player4.xpm", &w, &h);
-	data->butterfly[4] = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/player5.xpm", &w, &h);
-	data->butterfly[5] = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/player6.xpm", &w, &h);
-	data->butterfly[6] = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/player7.xpm", &w, &h);
-	i = -1;
-	while (++i < 7)
-	{
-		if (!data->butterfly[i])
-			clean_and_exit(data, "Error\nFailed to load butterfly images\n");
-	}
-}
-
-int	animation_loop(t_data *d)
-{
-	if (!d || !d->mlx_ptr || !d->win_ptr || !d->butterfly[0])
-		return (clean_and_exit(d, NULL), 0);
-	d->frame++;
-	if (d->frame > 1000000)
-		d->frame = 0;
-	render_map2(d, d->player_x, d->player_y);
-	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -112,59 +88,9 @@ int	main(int argc, char **argv)
 		return (write(1, "Error\nUsage: ./so_long map.ber\n", 32), 1);
 	if (!has_extension_ber(argv[1]))
 		return (write(1, "Error\nMap file must have .ber extension\n", 41), 1);
-	
 	ft_memset(&data, 0, sizeof(data));
 	data.moves = 1;
-	data.player_x = -1;
-	data.player_y = -1;
-	data.player_w = 0;
-	data.player_h = 0;
-	data.offset_x = 0;
-	data.offset_y = 0;
-	data.rows = 0;
-	data.cols = 0;
-	data.collectibles = 0;
 	data.frame = 0;
-	data.mlx_ptr = NULL;
-	data.win_ptr = NULL;
-	data.background = NULL;
-	data.treasure = NULL;
-	// data.player_img = NULL;
-	data.exit_close = NULL;
-	data.exit_open = NULL;
-	data.map = NULL;
-	data.floor = NULL;
-	data.wall = NULL;
-
-	t_imginfo test;
-	test.addr = NULL;
-	test.bpp = 0;
-	test.endian = 0;
-	test.size_line = 0;
-	(void)test;
-
-	t_pt test2;
-	test2.x = 0;
-	test2.y = 0;
-
-	t_rc test3;
-	test3.cols = 0;
-	test3.rows = 0;
-	test3.copy = NULL;
-
-	t_size test4;
-	test4.cols = 0;
-	test4.rows = 0;
-	(void)test2;
-	(void)test3;
-	(void)test4;
-
-	int i = -1;
-	while (++i <= 7)
-	{
-		data.butterfly[i] = NULL;
-		write(1, "c", 1);
-	}
 	data.map = read_map(argv[1], &data.rows, &data.cols);
 	if (!main_validate(&data))
 		return (clean_and_exit(&data, NULL), 1);
